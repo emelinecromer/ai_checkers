@@ -55,7 +55,7 @@ while True:
         if stage == "game":
             if player_turn:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    pos = pygame.mouse.get_pos()git
+                    pos = pygame.mouse.get_pos()
 
                     if pos[0] < 320 or pos[0] > 960 or pos[1] < 30 or pos[1] > 670:
                         continue
