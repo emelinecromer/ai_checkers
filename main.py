@@ -41,7 +41,7 @@ font = pygame.font.Font(None, 150)
 
 
 def computer_turn():
-    res = requests.post("http://localhost:5000/ai1", json={"board": board})
+    res = requests.post("http://localhost:5000/ai2", json={"board": board})
     new_board = res.json()["board"]
 
     for row in range(len(board)):
@@ -67,7 +67,7 @@ while True:
                     pos[0] //= 80
                     pos[1] //= 80
 
-                    # print(f"row {pos[1]}, column {pos[0]}")
+                    print(f"row {pos[1]}, column {pos[0]}")
 
                     if (pos[1], pos[0]) == tile:
                         tile = None
@@ -84,6 +84,9 @@ while True:
                             if abs(pos[0] - tile[1]) == 1:
                                 board[pos[1]][pos[0]], board[tile[0]][tile[1]] = board[tile[0]][tile[1]], board[pos[1]][
                                     pos[0]]
+                                if pos[1] == 0:
+                                    board[pos[1]][pos[0]] = "1u"
+
                                 tile = None
                                 player_turn = False
 

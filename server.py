@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 
 def moves(board, pturn):
+    global t
     mooves = []
 
     for row in range(len(board)):
@@ -71,29 +72,33 @@ def moves(board, pturn):
                                     board[nextp[0]][nextp[1]], board[tile[0]][tile[1]] = board[tile[0]][tile[1]], \
                                         board[nextp[0]][nextp[1]]
 
-                else:
-                    if tile[0] == len(board) - 1:
+            else:
+                if tile[0] == len(board) - 1:
+                    continue
+                if '2' in piece or 'u' in piece:
+                    if board[potential[0]][potential[1]] == '  ':
+                        board[tile[0]][tile[1]], board[potential[0]][potential[1]] = board[potential[0]][
+                            potential[1]], board[tile[0]][tile[1]]
+                        newboard = copy.deepcopy(board)
+                        if potential[0] == len(newboard) - 1:
+                            newboard[potential[0]][potential[1]] = "2u"
+                        mooves.append(newboard)
+                        board[tile[0]][tile[1]], board[potential[0]][potential[1]] = board[potential[0]][
+                            potential[1]], board[tile[0]][tile[1]]
+                    elif board[tile[0]][tile[1]][0] == board[potential[0]][potential[1]][0]:
                         continue
-                    if '2' in piece or 'u' in piece:
-                        if board[potential[0]][potential[1]] == '  ':
-                            board[tile[0]][tile[1]], board[potential[0]][potential[1]] = board[potential[0]][
-                                potential[1]], board[tile[0]][tile[1]]
-                            mooves.append(copy.deepcopy(board))
-                            board[tile[0]][tile[1]], board[potential[0]][potential[1]] = board[potential[0]][
-                                potential[1]], board[tile[0]][tile[1]]
-                        elif board[tile[0]][tile[1]][0] == board[potential[0]][potential[1]][0]:
-                            continue
-                        else:
-                            nextp = (potential[0] + direction[0], potential[1] + direction[1])
-                            if 0 <= nextp[0] <= len(board) - 1 and 0 <= nextp[1] <= len(board[row]) - 1:
-                                if board[nextp[0]][nextp[1]] == '  ':
-                                    board[nextp[0]][nextp[1]], board[tile[0]][tile[1]] = board[tile[0]][tile[1]], \
-                                        board[nextp[0]][nextp[1]]
-                                    newboard = copy.deepcopy(board)
-                                    newboard[potential[0]][potential[1]] = '  '
-                                    mooves.append(newboard)
-                                    board[nextp[0]][nextp[1]], board[tile[0]][tile[1]] = board[tile[0]][tile[1]], \
-                                        board[nextp[0]][nextp[1]]
+                    else:
+                        nextp = (potential[0] + direction[0], potential[1] + direction[1])
+                        if 0 <= nextp[0] <= len(board) - 1 and 0 <= nextp[1] <= len(board[row]) - 1:
+                            board[nextp[0]][nextp[1]], board[tile[0]][tile[1]] = board[tile[0]][tile[1]], \
+                                board[nextp[0]][nextp[1]]
+                            newboard = copy.deepcopy(board)
+                            newboard[potential[0]][potential[1]] = '  '
+                            if nextp[0] == len(board) - 1:
+                                newboard[nextp[0]][nextp[1]] = "2u"
+                            mooves.append(newboard)
+                            board[nextp[0]][nextp[1]], board[tile[0]][tile[1]] = board[tile[0]][tile[1]], \
+                                board[nextp[0]][nextp[1]]
 
     return mooves
 
@@ -155,7 +160,7 @@ def winner(board):
     elif count2 == 0:
         return count1 * 100
 
-    return count1-count2
+    return count1 - count2
 
 
 @app.route("/")
