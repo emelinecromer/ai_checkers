@@ -31,9 +31,9 @@ board = [
     ['  ', '1r', '  ', '  ', '  ', '  ', '  ', '  '],
     ['  ', '  ', '  ', '  ', '  ', '  ', '  ', '  '],
     ['  ', '  ', '  ', '  ', '  ', '  ', '  ', '  '],
-    ['  ', '  ', '2u', '  ', '2r', '  ', '  ', '  '],
-    ['  ', '  ', '  ', '  ', '  ', '  ', '  ', '  '],
-    ['  ', '  ', '1u', '  ', '1r', '  ', '  ', '  '],
+    ['  ', '  ', '2u', '  ', '  ', '  ', '  ', '  '],
+    ['  ', '1u', '  ', '  ', '  ', '  ', '  ', '  '],
+    ['  ', '  ', '  ', '  ', '1r', '  ', '  ', '  '],
     ['  ', '  ', '  ', '  ', '  ', '  ', '  ', '  ']
 ]
 
@@ -166,8 +166,19 @@ while True:
     screen.fill((255, 255, 255))
 
     if stage == "game":
+        font = pygame.font.Font(None,  30)
+        big_font = pygame.font.Font(None, 200)
+
+        player_turn_text = font.render("your turn", True, (0, 0, 0))
+        computer_turn_text = font.render("computer's turn", True, (0, 0, 0))
+
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(320, 30, 640, 640))
         pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(318, 28, 644, 644), width=4)
+
+        if player_turn:
+            screen.blit(player_turn_text, (30, 30))
+        else:
+            screen.blit(computer_turn_text, (30, 30))
 
         for i in range(0, 8):
             for j in range(0, 4):
@@ -205,11 +216,11 @@ while True:
                                                (440 + 160 * j, 70 + 80 * i), 30)
 
     elif stage == "p1 win":
-        text = font.render("you won yayyyy", True, (0, 0, 0))
+        text = big_font.render("you won yayyyy", True, (0, 0, 0))
         screen.blit(text, (1280 / 2 - text.get_width() / 2, 720 / 2 - text.get_height() / 2))
 
     elif stage == "p2 win":
-        text = font.render("you lost uh oh", True, (0, 0, 0))
+        text = big_font.render("you lost uh oh", True, (0, 0, 0))
         screen.blit(text, (1280 / 2 - text.get_width() / 2, 720 / 2 - text.get_height() / 2))
 
     pygame.display.flip()
