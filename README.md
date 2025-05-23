@@ -4,8 +4,16 @@ This is a checkers game with an AI opponent created in Python. It's only partial
 
 You can try running the current version locally:
 
-Download or clone the repository.
+Download the repository and unzip the files in Downloads.
 
-Run the main script with:
+Make sure you have python installed (python.org)
 
-python checkers.py
+Navigate to the game folder in the Downloads folder:
+cd Downloads/ai_checkers-main
+
+Install needed modules:
+pip install pygame
+pip install requests
+
+Run the game:
+python main.py
